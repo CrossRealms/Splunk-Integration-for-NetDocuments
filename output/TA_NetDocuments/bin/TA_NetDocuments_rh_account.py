@@ -16,9 +16,51 @@ util.remove_http_proxy_env_vars()
 
 fields = [
     field.RestField(
-        'api_key',
-        required=True,
+        'endpoint',
+        required=False,
+        encrypted=False,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'client_id',
+        required=False,
+        encrypted=False,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'client_secret',
+        required=False,
         encrypted=True,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'redirect_url',
+        required=False,
+        encrypted=False,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'access_token',
+        required=False,
+        encrypted=True,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'refresh_token',
+        required=False,
+        encrypted=True,
+        default=None,
+        validator=None
+    ), 
+    field.RestField(
+        'instance_url',
+        required=False,
+        encrypted=False,
         default=None,
         validator=None
     )

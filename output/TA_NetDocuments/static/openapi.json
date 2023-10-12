@@ -30,18 +30,36 @@
                     "name": {
                         "type": "string"
                     },
-                    "api_key": {
+                    "endpoint": {
                         "type": "string",
-                        "format": "password"
+                        "enum": [
+                            "api.vault.netvoyage.com",
+                            "api.eu.vault.netvoyage.com",
+                            "api.au.vault.netvoyage.com",
+                            "api.de.vault.netvoyage.com",
+                            "api.can.vault.netvoyage.com"
+                        ]
+                    },
+                    "oauth": {
+                        "type": "string"
                     }
                 }
             },
             "account_without_name": {
                 "type": "object",
                 "properties": {
-                    "api_key": {
+                    "endpoint": {
                         "type": "string",
-                        "format": "password"
+                        "enum": [
+                            "api.vault.netvoyage.com",
+                            "api.eu.vault.netvoyage.com",
+                            "api.au.vault.netvoyage.com",
+                            "api.de.vault.netvoyage.com",
+                            "api.can.vault.netvoyage.com"
+                        ]
+                    },
+                    "oauth": {
+                        "type": "string"
                     }
                 }
             },

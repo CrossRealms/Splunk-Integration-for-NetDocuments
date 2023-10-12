@@ -12,8 +12,12 @@
                         ],
                         "header": [
                             {
-                                "label": "Name",
-                                "field": "name"
+                                "field": "name",
+                                "label": "Account name"
+                            },
+                            {
+                                "field": "client_id",
+                                "label": "Client ID"
                             }
                         ]
                     },
@@ -39,12 +43,70 @@
                             "required": true
                         },
                         {
-                            "type": "text",
-                            "label": "API key",
-                            "field": "api_key",
-                            "help": "API key",
-                            "required": true,
-                            "encrypted": true
+                            "type": "singleSelect",
+                            "field": "endpoint",
+                            "label": "Region",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "api.vault.netvoyage.com",
+                                        "label": "United States"
+                                    },
+                                    {
+                                        "value": "api.eu.vault.netvoyage.com",
+                                        "label": "United Kingdom"
+                                    },
+                                    {
+                                        "value": "api.au.vault.netvoyage.com",
+                                        "label": "Australia"
+                                    },
+                                    {
+                                        "value": "api.de.vault.netvoyage.com",
+                                        "label": "Germany"
+                                    },
+                                    {
+                                        "value": "api.can.vault.netvoyage.com",
+                                        "label": "Canada"
+                                    }
+                                ],
+                                "display": true
+                            }
+                        },
+                        {
+                            "type": "oauth",
+                            "field": "oauth",
+                            "label": "Not used",
+                            "options": {
+                                "auth_type": [
+                                    "oauth"
+                                ],
+                                "oauth": [
+                                    {
+                                        "oauth_field": "client_id",
+                                        "label": "Client Id",
+                                        "field": "client_id",
+                                        "help": "Enter the NetDocument Client Id for this account."
+                                    },
+                                    {
+                                        "oauth_field": "client_secret",
+                                        "label": "Client Secret",
+                                        "field": "client_secret",
+                                        "encrypted": true,
+                                        "help": "Enter the NetDocuments Client Secret key for this account."
+                                    },
+                                    {
+                                        "oauth_field": "redirect_url",
+                                        "label": "Redirect url",
+                                        "field": "redirect_url",
+                                        "help": "Copy and paste this URL into your NetDocuments app."
+                                    }
+                                ],
+                                "auth_code_endpoint": "/authorize-app/",
+                                "access_token_endpoint": "/v1/OAuth",
+                                "oauth_timeout": 30,
+                                "oauth_state_enabled": false
+                            }
                         }
                     ],
                     "title": "Accounts"
