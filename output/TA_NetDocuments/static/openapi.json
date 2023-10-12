@@ -33,11 +33,11 @@
                     "endpoint": {
                         "type": "string",
                         "enum": [
-                            "api.vault.netvoyage.com",
-                            "api.eu.vault.netvoyage.com",
-                            "api.au.vault.netvoyage.com",
-                            "api.de.vault.netvoyage.com",
-                            "api.can.vault.netvoyage.com"
+                            "vault.netvoyage.com",
+                            "eu.netdocuments.com",
+                            "au.netdocuments.com",
+                            "de.netdocuments.com",
+                            "can.netdocuments.com"
                         ]
                     },
                     "oauth": {
@@ -51,11 +51,11 @@
                     "endpoint": {
                         "type": "string",
                         "enum": [
-                            "api.vault.netvoyage.com",
-                            "api.eu.vault.netvoyage.com",
-                            "api.au.vault.netvoyage.com",
-                            "api.de.vault.netvoyage.com",
-                            "api.can.vault.netvoyage.com"
+                            "vault.netvoyage.com",
+                            "eu.netdocuments.com",
+                            "au.netdocuments.com",
+                            "de.netdocuments.com",
+                            "can.netdocuments.com"
                         ]
                     },
                     "oauth": {

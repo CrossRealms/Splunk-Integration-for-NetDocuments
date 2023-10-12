@@ -17,21 +17,21 @@ util.remove_http_proxy_env_vars()
 fields = [
     field.RestField(
         'endpoint',
-        required=False,
+        required=True,
         encrypted=False,
         default=None,
         validator=None
     ), 
     field.RestField(
         'client_id',
-        required=False,
+        required=True,
         encrypted=False,
         default=None,
         validator=None
     ), 
     field.RestField(
         'client_secret',
-        required=False,
+        required=True,
         encrypted=True,
         default=None,
         validator=None

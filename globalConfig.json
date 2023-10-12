@@ -50,28 +50,29 @@
                                 "disableSearch": true,
                                 "autoCompleteFields": [
                                     {
-                                        "value": "api.vault.netvoyage.com",
+                                        "value": "vault.netvoyage.com",
                                         "label": "United States"
                                     },
                                     {
-                                        "value": "api.eu.vault.netvoyage.com",
+                                        "value": "eu.netdocuments.com",
                                         "label": "United Kingdom"
                                     },
                                     {
-                                        "value": "api.au.vault.netvoyage.com",
+                                        "value": "au.netdocuments.com",
                                         "label": "Australia"
                                     },
                                     {
-                                        "value": "api.de.vault.netvoyage.com",
+                                        "value": "de.netdocuments.com",
                                         "label": "Germany"
                                     },
                                     {
-                                        "value": "api.can.vault.netvoyage.com",
+                                        "value": "can.netdocuments.com",
                                         "label": "Canada"
                                     }
                                 ],
                                 "display": true
-                            }
+                            },
+                            "required": true
                         },
                         {
                             "type": "oauth",
@@ -86,6 +87,7 @@
                                         "oauth_field": "client_id",
                                         "label": "Client Id",
                                         "field": "client_id",
+                                        "required": true,
                                         "help": "Enter the NetDocument Client Id for this account."
                                     },
                                     {
@@ -93,6 +95,7 @@
                                         "label": "Client Secret",
                                         "field": "client_secret",
                                         "encrypted": true,
+                                        "required": true,
                                         "help": "Enter the NetDocuments Client Secret key for this account."
                                     },
                                     {
@@ -102,9 +105,9 @@
                                         "help": "Copy and paste this URL into your NetDocuments app."
                                     }
                                 ],
-                                "auth_code_endpoint": "/authorize-app/",
+                                "auth_code_endpoint": "/neWeb2/OAuth.aspx",
                                 "access_token_endpoint": "/v1/OAuth",
-                                "oauth_timeout": 30,
+                                "oauth_timeout": 60,
                                 "oauth_state_enabled": false
                             }
                         }
