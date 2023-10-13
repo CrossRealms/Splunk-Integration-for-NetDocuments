@@ -21,8 +21,8 @@ class NetDocuments:
         self.refresh_token = refresh_token
         self.proxy_settings = proxy_settings
 
-        self.base_url = 'https://api.vault.netvoyage.com/v1/'
-        self.token_refresh_url = 'https://api.vault.netvoyage.com/v1/OAuth'
+        self.base_url = 'https://api.vault.netvoyage.com/v1/'   # TODO need to use dynamic endpoint based on region
+        self.token_refresh_url = 'https://api.vault.netvoyage.com/v1/OAuth'   # TODO need to use dynamic endpoint based on region
         self.logger = logger
         self.logger.debug("NetDocuments class initialized.")
 
