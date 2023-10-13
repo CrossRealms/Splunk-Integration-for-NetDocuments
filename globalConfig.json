@@ -16,6 +16,10 @@
                                 "label": "Account name"
                             },
                             {
+                                "field": "endpoint",
+                                "label": "Endpoint/Region"
+                            },
+                            {
                                 "field": "client_id",
                                 "label": "Client ID"
                             }
@@ -204,6 +208,26 @@
                             "help": "Account to use for this input.",
                             "field": "account",
                             "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Repository ID",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Repository ID seems incorrect",
+                                    "pattern": "^[\\w\\-\\_]+$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of Repository ID should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "field": "repository_id",
+                            "help": "Repository ID for which data needs to be collected.",
+                            "required": true
                         }
                     ],
                     "title": "repository_user_logs"
@@ -232,6 +256,14 @@
                         "field": "index"
                     },
                     {
+                        "label": "Account",
+                        "field": "account"
+                    },
+                    {
+                        "label": "Repository ID",
+                        "field": "repository_id"
+                    },
+                    {
                         "label": "Status",
                         "field": "disabled"
                     }
@@ -248,6 +280,14 @@
                     {
                         "label": "Index",
                         "field": "index"
+                    },
+                    {
+                        "label": "Account",
+                        "field": "account"
+                    },
+                    {
+                        "label": "Repository ID",
+                        "field": "repository_id"
                     },
                     {
                         "label": "Status",

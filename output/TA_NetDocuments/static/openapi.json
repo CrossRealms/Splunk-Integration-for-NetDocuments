@@ -105,6 +105,9 @@
                     "account": {
                         "type": "string"
                     },
+                    "repository_id": {
+                        "type": "string"
+                    },
                     "disabled": {
                         "type": "string",
                         "enum": [
@@ -121,6 +124,9 @@
                         "type": "string"
                     },
                     "account": {
+                        "type": "string"
+                    },
+                    "repository_id": {
                         "type": "string"
                     },
                     "disabled": {
@@ -142,6 +148,9 @@
                         "type": "string"
                     },
                     "account": {
+                        "type": "string"
+                    },
+                    "repository_id": {
                         "type": "string"
                     }
                 }
