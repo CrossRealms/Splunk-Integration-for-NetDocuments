@@ -2,8 +2,8 @@
 import json
 from splunklib import modularinput as smi
 
-from package.bin.addon_helper import AddonInput
-from package.bin.netdocuments_api import NetDocuments
+from addon_helper import AddonInput
+from netdocuments_api import NetDocuments
 
 
 class RepositoryUserLog(AddonInput):

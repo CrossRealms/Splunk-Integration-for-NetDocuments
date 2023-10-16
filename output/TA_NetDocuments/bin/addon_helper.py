@@ -5,7 +5,7 @@ import traceback
 from solnlib.modular_input import checkpointer
 from solnlib import conf_manager, log
 
-from package.bin.addon_name import ADDON_NAME, NORMALIZED_ADDON_NAME
+from addon_name import ADDON_NAME, NORMALIZED_ADDON_NAME
 
 
 class AddonInputCheckpointer:
@@ -81,7 +81,7 @@ class AddonInput:
             checkpointer = AddonInputCheckpointer(session_key, logger, normalized_input_name)
             last_checkpoint = checkpointer.get()
             
-            updated_checkpoint = self.collect(session_key, logger, event_writer account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
+            updated_checkpoint = self.collect(session_key, logger, event_writer, account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
             checkpointer.update(updated_checkpoint)
 
             log.modular_input_end(logger, normalized_input_name)   # TODO - need to update with logger

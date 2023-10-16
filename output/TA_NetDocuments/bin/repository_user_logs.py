@@ -3,7 +3,7 @@ import sys
 
 import import_declare_test
 from splunklib import modularinput as smi
-from package.bin.input_repository_user_logs import RepositoryUserLog
+from input_repository_user_logs import RepositoryUserLog
 
 
 
