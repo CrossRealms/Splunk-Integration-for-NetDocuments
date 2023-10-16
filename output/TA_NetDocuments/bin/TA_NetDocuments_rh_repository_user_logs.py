@@ -32,6 +32,16 @@ fields = [
         validator=None
     ), 
     field.RestField(
+        'index',
+        required=True,
+        encrypted=False,
+        default='default',
+        validator=validator.String(
+            max_len=80, 
+            min_len=1, 
+        )
+    ), 
+    field.RestField(
         'repository_id',
         required=True,
         encrypted=False,

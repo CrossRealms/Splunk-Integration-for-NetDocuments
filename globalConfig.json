@@ -210,6 +210,26 @@
                             "required": true
                         },
                         {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "createSearchChoice": true,
+                                "denyList": "^_.*$"
+                            },
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Length of index name should be between 1 and 80."
+                                }
+                            ]
+                        },
+                        {
                             "type": "text",
                             "label": "Repository ID",
                             "validators": [
@@ -230,7 +250,7 @@
                             "required": true
                         }
                     ],
-                    "title": "repository_user_logs"
+                    "title": "Repository User Logs"
                 }
             ],
             "title": "Inputs",
