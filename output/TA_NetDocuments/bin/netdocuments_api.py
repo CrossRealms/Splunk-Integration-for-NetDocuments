@@ -5,7 +5,7 @@ import json
 
 
 class NetDocuments:
-    def __init__(self, logger, client_id, client_secret, access_token, refresh_token, proxy_settings=None):
+    def __init__(self, logger, endpoint, client_id, client_secret, access_token, refresh_token, proxy_settings=None):
         """
         Initialization of the NetDocuments properties
         :param client_id: Client ID of the NetDocuments Account
@@ -21,8 +21,8 @@ class NetDocuments:
         self.refresh_token = refresh_token
         self.proxy_settings = proxy_settings
 
-        self.base_url = 'https://api.vault.netvoyage.com/v1/'   # TODO need to use dynamic endpoint based on region
-        self.token_refresh_url = 'https://api.vault.netvoyage.com/v1/OAuth'   # TODO need to use dynamic endpoint based on region
+        self.base_url = f'https://api.{endpoint}/v1/'
+        self.token_refresh_url = f'https://api.{endpoint}/v1/OAuth'
         self.logger = logger
         self.logger.debug("NetDocuments class initialized.")
 
@@ -48,12 +48,12 @@ class NetDocuments:
 
             self.logger.error(
                 'Error while refreshing the access token, status code={} response={}'.format(response.status_code, response.text))
-            sys.exit(1)
 
         except Exception as exception:
             self.logger.exception(
                 'Error while refreshing the access token, error={}'.format(exception))
-            sys.exit(1)
+
+        return False
 
 
     def is_token_expired(self, prev_api_response):
@@ -64,15 +64,16 @@ class NetDocuments:
         return Refreshed access_token and the refresh_token in case the token is expired, and false otherwise
         """
         try:
-            response_json = json.loads(prev_api_response.text)
+            # response_json = json.loads(prev_api_response.text)
             self.logger.debug('Checking if the access token is expired')
 
-            if prev_api_response.status_code == 400:
+            if prev_api_response.status_code == 401:
             #  and ((response.get('errors', [])[0].get('extensions', {}).get('code') == 'UNAUTHENTICATED') or (response.get('errors', [])[0].get('extensions', {}).get('extensions', {}).get('code') == 'UNAUTHENTICATED')):
                 self.logger.info('Access token is expired.')
-
+                self.logger.info(f'prev_api_response.text = {prev_api_response.text}')
+                return True
             else:
-                self.logger.warning("Non 400 status code. status_code={}, response={}".format(prev_api_response.status_code, prev_api_response.response))
+                self.logger.warning("Non 401 status code. status_code={}, response={}".format(prev_api_response.status_code, prev_api_response.response))
 
         except Exception as exception:
             self.logger.exception(
@@ -96,18 +97,18 @@ class NetDocuments:
                 return response
 
             self.logger.warning('Error while making the API call to URL={}, status_code={}'.format(full_url, status_code))
-            is_access_token_expired = self.is_token_expired(status_code, response.text)
+            is_access_token_expired = self.is_token_expired(response)
             if is_access_token_expired:
-                self.refresh_the_access_token()
+                is_refreshed_token = self.refresh_the_access_token()
 
-                response2 = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings)
-                status_code2 = response2.status_code
+                if is_refreshed_token:
+                    response2 = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings)
+                    status_code2 = response2.status_code
 
-                self.logger.debug("After refreshing the access token, API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code2, response2.text))
-
-                return response2
+                    self.logger.debug("After refreshing the access token, API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code2, response2.text))
+                    return response2
 
         except Exception as exception:
             self.logger.exception(
                 'Error while making the API call to URL={}, error={}'.format(full_url, exception))
-            sys.exit(1)
+            return False
