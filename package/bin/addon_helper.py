@@ -2,8 +2,12 @@
 import sys
 import logging
 import traceback
+
+import import_declare_test
+
 from solnlib.modular_input import checkpointer
 from solnlib import conf_manager
+from splunktaucclib.rest_handler.admin_external import AdminExternalHandler
 
 from addon_name import ADDON_NAME, NORMALIZED_ADDON_NAME
 import logger_manager
@@ -51,6 +55,20 @@ def get_account_details(session_key: str, logger, account_name: str):
     return account_conf_file.get(account_name)
 
 
+def get_log_level(session_key: str):
+    log_level = logging.INFO
+    try:
+        # TODO - this does not work as expected.
+        log_level = conf_manager.get_log_level(
+            session_key=session_key,
+            app_name=ADDON_NAME,
+            conf_name=f"{NORMALIZED_ADDON_NAME}_settings",
+        )
+    except:
+        pass
+    return log_level
+
+
 
 class AddonInput:
     def __init__(self, session_key, input_name, input_item, event_writer) -> None:
@@ -58,17 +76,8 @@ class AddonInput:
 
         self.session_key = session_key
         self.event_writer = event_writer
-        
-        log_level = logging.INFO
-        try:
-            log_level = conf_manager.get_log_level(
-                session_key=session_key,
-                app_name=ADDON_NAME,
-                conf_name=f"{NORMALIZED_ADDON_NAME}_settings",
-            )
-        except:
-            pass
 
+        log_level = get_log_level(self.session_key)
         self.logger = logger_manager.setup_logging(normalized_input_name, log_level)
 
         try:
@@ -102,3 +111,42 @@ class AddonInput:
 
 
 
+class InputHelperRestHandler(AdminExternalHandler):
+    def __init__(self, *args, **kwargs):
+        AdminExternalHandler.__init__(self, *args, **kwargs)
+
+    def handleList(self, confInfo):
+        AdminExternalHandler.handleList(self, confInfo)
+
+    def handleEdit(self, confInfo):
+        AdminExternalHandler.handleEdit(self, confInfo)
+
+    def handleCreate(self, confInfo):
+        AdminExternalHandler.handleCreate(self, confInfo)
+
+    def handleRemove(self, confInfo):
+        # Deleting the checkpoint to avoid issue when user tries to delete the input but then tries to recreate the input with the same name
+
+        session_key = self.getSessionKey()
+        log_level = get_log_level(session_key)
+        input_name = self.callerArgs.id
+        if input_name:
+            logger = logger_manager.setup_logging(input_name, log_level)
+
+            input_checkpointer = AddonInputCheckpointer(self.getSessionKey(), logger, input_name)
+            last_checkpoint = input_checkpointer.get()
+
+            if last_checkpoint:
+                logger.info(f"Deleting the checkpoint for input={input_name} with last found checkpoint was {last_checkpoint}")
+                input_checkpointer.delete()
+                logger.info(f"Deleted the input checkpoint for input={input_name}")
+            else:
+                logger.info(f"No checkpoint present for input={input_name}")
+
+            AdminExternalHandler.handleRemove(self, confInfo)
+
+        else:
+            logger = logger_manager.setup_logging("delete_input_error", log_level)
+            err_msg = "Unable to find the input name in the handler."
+            logger.error(err_msg)
+            raise Exception(err_msg)

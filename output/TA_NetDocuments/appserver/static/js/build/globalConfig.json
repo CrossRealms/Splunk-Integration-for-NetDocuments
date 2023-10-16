@@ -163,6 +163,8 @@
             "services": [
                 {
                     "name": "repository_user_logs",
+                    "restHandlerModule": "addon_helper",
+                    "restHandlerClass": "InputHelperRestHandler",
                     "entity": [
                         {
                             "type": "text",
@@ -254,6 +256,8 @@
                 },
                 {
                     "name": "repository_admin_logs",
+                    "restHandlerModule": "addon_helper",
+                    "restHandlerClass": "InputHelperRestHandler",
                     "entity": [
                         {
                             "type": "text",

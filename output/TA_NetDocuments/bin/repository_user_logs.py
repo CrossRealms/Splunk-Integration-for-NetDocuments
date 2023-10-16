@@ -28,20 +28,6 @@ class Input(smi.Script):
         return
 
     def stream_events(self, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
-        # inputs.inputs is a Python dictionary object like:
-        # {
-        #   "repository_user_logs://<input_name>": {
-        #     "account": "<account_name>",
-        #     "disabled": "0",
-        #     "host": "$decideOnStartup",
-        #     "index": "<index_name>",
-        #     "interval": "<interval_value>",
-        #     "python.version": "python3",
-        #   },
-        # }
-
-        # TODO - Need to delete checkpoints for input which got deleted
-
         session_key = self._input_definition.metadata["session_key"]
 
         for input_name, input_item in inputs.inputs.items():
