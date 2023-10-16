@@ -3,9 +3,10 @@ import sys
 import logging
 import traceback
 from solnlib.modular_input import checkpointer
-from solnlib import conf_manager, log
+from solnlib import conf_manager
 
 from addon_name import ADDON_NAME, NORMALIZED_ADDON_NAME
+import logger_manager
 
 
 class AddonInputCheckpointer:
@@ -43,7 +44,7 @@ class AddonInputCheckpointer:
 
 
 
-def get_account_details(session_key: str, account_name: str):
+def get_account_details(session_key: str, logger, account_name: str):
     cfm = conf_manager.ConfManager(
         session_key,
         ADDON_NAME,
@@ -54,45 +55,49 @@ def get_account_details(session_key: str, account_name: str):
 
 
 
-
-def logger_for_input(input_name: str) -> logging.Logger:
-    return log.Logs().get_logger(f"{ADDON_NAME.lower()}_{input_name}")
-
-
 class AddonInput:
     def __init__(self, session_key, input_name, input_item, event_writer) -> None:
         normalized_input_name = input_name.split("/")[-1]
+
+        self.session_key = session_key
+        self.event_writer = event_writer
         
-        logger = logger_for_input(normalized_input_name)
+        log_level = logging.INFO
         try:
             log_level = conf_manager.get_log_level(
-                logger=logger,
                 session_key=session_key,
                 app_name=ADDON_NAME,
-                conf_name=f"{ADDON_NAME}_settings",
+                conf_name=f"{NORMALIZED_ADDON_NAME}_settings",
             )
-            logger.setLevel(log_level)
-            log.modular_input_start(logger, normalized_input_name)   # TODO - need to update with logger
+        except:
+            pass
 
-            account_name = input_item.get('account_name')
-            account_details = get_account_details(session_key, account_name)
+        self.logger = logger_manager.setup_logging(normalized_input_name, log_level)
+
+        try:
+            self.logger.info(f'Modular input "{normalized_input_name}" started.')
+
+            self.logger.info(f"input_name={input_name}, input_item={input_item}")
+
+            account_name = input_item.get('account')
+            account_details = get_account_details(session_key, self.logger, account_name)
             # proxy_settings = get_proxy_settings(session_key, logger)
 
-            checkpointer = AddonInputCheckpointer(session_key, logger, normalized_input_name)
+            checkpointer = AddonInputCheckpointer(session_key, self.logger, normalized_input_name)
             last_checkpoint = checkpointer.get()
-            
-            updated_checkpoint = self.collect(session_key, logger, event_writer, account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
+
+            updated_checkpoint = self.collect(account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
             checkpointer.update(updated_checkpoint)
 
-            log.modular_input_end(logger, normalized_input_name)   # TODO - need to update with logger
+            self.logger.info(f'Modular input "{normalized_input_name}" ended.')
 
         except Exception as e:
-            logger.error(
+            self.logger.error(
                 f'Exception raised while ingesting data for input="{normalized_input_name}" {e}. Traceback: {traceback.format_exc()}'
             )
 
 
-    def collect(self, session_key, logger, event_writer, account_details, proxy_settings,  input_name, input_item, last_checkpoint):
+    def collect(self, account_details, proxy_settings, input_name, input_item, last_checkpoint):
         raise Exception("collect method has not been implemented.")
 
 
