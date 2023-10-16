@@ -10,13 +10,7 @@ class RepositoryUserLog(AddonInput):
     def collect(self, account_details, proxy_settings, input_name, input_item, last_checkpoint):
         sourcetype = "netdocuments:repository:user:logs"
 
-        endpoint = account_details.get('endpoint')
-        client_id = account_details.get('client_id')
-        client_secret = account_details.get('client_secret')
-        access_token = account_details.get('access_token')
-        refresh_token = account_details.get('refresh_token')
-
-        netdocs_api = NetDocuments(self.logger, endpoint, client_id=client_id, client_secret=client_secret, access_token=access_token, refresh_token=refresh_token)
+        netdocs_api = NetDocuments(self.logger, account_details)
 
         repository_id = input_item.get('repository_id')
         response = netdocs_api.make_api_call(f'Repository/{repository_id}/log', params={"start_date": last_checkpoint, "Logtype": "consolidated", "format": "json"})

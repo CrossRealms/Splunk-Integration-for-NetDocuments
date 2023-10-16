@@ -5,7 +5,7 @@ import json
 
 
 class NetDocuments:
-    def __init__(self, logger, endpoint, client_id, client_secret, access_token, refresh_token, proxy_settings=None):
+    def __init__(self, logger, account_details, proxy_settings=None):
         """
         Initialization of the NetDocuments properties
         :param client_id: Client ID of the NetDocuments Account
@@ -15,10 +15,12 @@ class NetDocuments:
         :param logger: Logger object
         :param proxy_settings: Proxy settings configured by the user
         """
-        self.client_id = client_id
-        self.client_secret = client_secret
-        self.access_token = access_token
-        self.refresh_token = refresh_token
+        endpoint = account_details.get('endpoint')
+        self.client_id = account_details.get('client_id')
+        self.client_secret = account_details.get('client_secret')
+        self.access_token = account_details.get('access_token')
+        self.refresh_token = account_details.get('refresh_token')
+
         self.proxy_settings = proxy_settings
 
         self.base_url = f'https://api.{endpoint}/v1/'
