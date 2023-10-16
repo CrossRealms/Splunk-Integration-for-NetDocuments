@@ -22,7 +22,6 @@ class AddonInputCheckpointer:
             return ck.get(self.input_name)
         except Exception as exception:
             self.logger.error("Error occurred while fetching checkpoint, error={}".format(exception))
-            sys.exit(1)
 
     def update(self, new_val):
         try:
@@ -30,8 +29,7 @@ class AddonInputCheckpointer:
                 self.input_name, self.session_key, ADDON_NAME)
             return ck.update(self.input_name, new_val)
         except Exception as exception:
-            self.logger.error("Error occurred while updating the checkpoint, error={}".format(exception))
-            sys.exit(1)
+            self.logger.exception("Error occurred while updating the checkpoint, error={}".format(exception))
 
     def delete(self):
         try:
@@ -39,8 +37,7 @@ class AddonInputCheckpointer:
                 self.input_name, self.session_key, ADDON_NAME)
             return ck.delete(self.input_name)
         except Exception as exception:
-            self.logger.error("Error occurred while deleting the checkpoint, error={}".format(exception))
-            sys.exit(1)
+            self.logger.exception("Error occurred while deleting the checkpoint, error={}".format(exception))
 
 
 
@@ -83,11 +80,14 @@ class AddonInput:
             account_details = get_account_details(session_key, self.logger, account_name)
             # proxy_settings = get_proxy_settings(session_key, logger)
 
-            checkpointer = AddonInputCheckpointer(session_key, self.logger, normalized_input_name)
-            last_checkpoint = checkpointer.get()
+            input_checkpointer = AddonInputCheckpointer(session_key, self.logger, normalized_input_name)
+            last_checkpoint = input_checkpointer.get()
+            self.logger.info(f"input={normalized_input_name} -> checkpoint={last_checkpoint}")
 
             updated_checkpoint = self.collect(account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
-            checkpointer.update(updated_checkpoint)
+            self.logger.info(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
+            if updated_checkpoint:
+                input_checkpointer.update(updated_checkpoint)
 
             self.logger.info(f'Modular input "{normalized_input_name}" ended.')
 
