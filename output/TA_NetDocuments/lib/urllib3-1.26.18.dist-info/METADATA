@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: urllib3
-Version: 1.26.17
+Version: 1.26.18
 Summary: HTTP library with thread-safe connection pooling, file post, and more.
 Home-page: https://urllib3.readthedocs.io/
 Author: Andrey Petrov
@@ -154,6 +154,12 @@ For Enterprise
 
 Changes
 =======
+
+1.26.18 (2023-10-17)
+--------------------
+
+* Made body stripped from HTTP requests changing the request method to GET after HTTP 303 "See Other" redirect responses.
+
 
 1.26.17 (2023-10-02)
 --------------------
