@@ -27,17 +27,31 @@ class RepositoryUserLog(AddonInput):
             if response.status_code == 200:
                 cleaned_response_text = response.text.lstrip('\ufeff')
                 json_data = json.loads(cleaned_response_text)
-                for line in json_data:
-                    self.logger.info("line - {}".format(line))
+
+                last_date = json_data[-1]['activity']['date']
+
+                self.logger.info(f'Total events fetched from API {len(json_data)}')
+
+                for i in range(len(json_data)-1, -1, -1):
+                    if json_data[i]['activity']['date'] == last_date:
+                        # pass   # ignoring the last date to avoid duplicate data
+                        self.logger.debug(f"i={i} -> last_date")
+                    else:
+                        self.logger.debug(f"i={i} -> last_date not matching here breaking...")
+                        break
+
+                for j in range(0, i+1):
+                    # self.logger.debug(f"i={i} -> ingesting line -> {json_data[j]}")
                     self.event_writer.write_event(
                         smi.Event(
-                            data=json.dumps(line['activity'], ensure_ascii=False, default=str),
+                            data=json.dumps(json_data[j]['activity'], ensure_ascii=False, default=str),
                             index=input_item.get("index"),
                             sourcetype=sourcetype,
                         )
                     )
-                self.logger.info(f'Ingested {len(json_data)} for input="{input_name.split("/")[-1]}" in the sourcetype="{sourcetype}"')
-                return "new_value"   # return updated checkpoint
+
+                self.logger.info(f'Ingested {i+1} events for input="{input_name.split("/")[-1]}" in the sourcetype="{sourcetype}"')
+                return "{}Z".format(last_date)
 
             else:
                 self.logger.error(f"Unable to fetch user data from repository={repository_id}, status_code={response.status_code}")
