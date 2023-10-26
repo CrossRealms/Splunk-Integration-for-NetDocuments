@@ -16,6 +16,8 @@ class NetDocuments:
         self.logger.debug("NetDocuments class initialized.")
 
 
+    # TODO - Need to update the access token inside the account.conf file - See lansweeper's update_access_token() function for reference
+
     def get_access_token(self):
         if self.access_token:
             return self.access_token
