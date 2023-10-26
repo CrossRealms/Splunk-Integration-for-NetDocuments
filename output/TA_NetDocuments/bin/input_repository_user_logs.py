@@ -12,7 +12,7 @@ class RepositoryUserLog(AddonInput):
 
         netdocs_api = NetDocuments(self.logger, account_details)
 
-        repository_id = input_item.get('repository_id')
+        repository_id = account_details.get('repository_id')
         response = netdocs_api.make_api_call(f'Repository/{repository_id}/log', params={"start_date": last_checkpoint, "Logtype": "consolidated", "format": "json"})
 
         if response:

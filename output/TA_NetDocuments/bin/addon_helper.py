@@ -58,6 +58,7 @@ def get_account_details(session_key: str, logger, account_name: str):
 def get_log_level(session_key: str):
     log_level = logging.INFO
     try:
+        # TODO - this does not work as expected.
         log_level = conf_manager.get_log_level(
             session_key=session_key,
             app_name=ADDON_NAME,

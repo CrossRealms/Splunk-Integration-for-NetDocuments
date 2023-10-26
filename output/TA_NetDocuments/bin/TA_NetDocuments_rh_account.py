@@ -37,32 +37,26 @@ fields = [
         validator=None
     ), 
     field.RestField(
-        'redirect_url',
-        required=False,
+        'scope',
+        required=True,
         encrypted=False,
         default=None,
         validator=None
     ), 
     field.RestField(
-        'access_token',
-        required=False,
-        encrypted=True,
-        default=None,
-        validator=None
-    ), 
-    field.RestField(
-        'refresh_token',
-        required=False,
-        encrypted=True,
-        default=None,
-        validator=None
-    ), 
-    field.RestField(
-        'instance_url',
-        required=False,
+        'repository_id',
+        required=True,
         encrypted=False,
         default=None,
-        validator=None
+        validator=validator.AllOf(
+            validator.Pattern(
+                regex=r"""^[\w\-\_]+$""", 
+            ), 
+            validator.String(
+                max_len=100, 
+                min_len=1, 
+            )
+        )
     )
 ]
 model = RestModel(fields, name=None)

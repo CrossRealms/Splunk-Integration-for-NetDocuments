@@ -41,21 +41,6 @@ fields = [
             min_len=1, 
         )
     ), 
-    field.RestField(
-        'repository_id',
-        required=True,
-        encrypted=False,
-        default=None,
-        validator=validator.AllOf(
-            validator.Pattern(
-                regex=r"""^[\w\-\_]+$""", 
-            ), 
-            validator.String(
-                max_len=100, 
-                min_len=1, 
-            )
-        )
-    ), 
 
     field.RestField(
         'disabled',

@@ -22,6 +22,10 @@
                             {
                                 "field": "client_id",
                                 "label": "Client ID"
+                            },
+                            {
+                                "label": "Repository ID",
+                                "field": "repository_id"
                             }
                         ]
                     },
@@ -79,41 +83,74 @@
                             "required": true
                         },
                         {
-                            "type": "oauth",
-                            "field": "oauth",
-                            "label": "Not used",
+                            "type": "text",
+                            "label": "Client Id",
+                            "field": "client_id",
+                            "required": true,
+                            "help": "Enter the NetDocument Client Id for this account."
+                        },
+                        {
+                            "type": "text",
+                            "label": "Client Secret",
+                            "field": "client_secret",
+                            "encrypted": true,
+                            "required": true,
+                            "help": "Enter the NetDocuments Client Secret key for this account."
+                        },
+                        {
+                            "type": "multipleSelect",
+                            "field": "scope",
+                            "label": "Scope",
+                            "required": true,
                             "options": {
-                                "auth_type": [
-                                    "oauth"
-                                ],
-                                "oauth": [
+                                "delimiter": " ",
+                                "items": [
                                     {
-                                        "oauth_field": "client_id",
-                                        "label": "Client Id",
-                                        "field": "client_id",
-                                        "required": true,
-                                        "help": "Enter the NetDocument Client Id for this account."
+                                        "value": "read",
+                                        "label": "read"
                                     },
                                     {
-                                        "oauth_field": "client_secret",
-                                        "label": "Client Secret",
-                                        "field": "client_secret",
-                                        "encrypted": true,
-                                        "required": true,
-                                        "help": "Enter the NetDocuments Client Secret key for this account."
+                                        "value": "edit",
+                                        "label": "edit"
                                     },
                                     {
-                                        "oauth_field": "redirect_url",
-                                        "label": "Redirect url",
-                                        "field": "redirect_url",
-                                        "help": "Copy and paste this URL into your NetDocuments app."
+                                        "value": "organize",
+                                        "label": "organize"
+                                    },
+                                    {
+                                        "value": "lookup",
+                                        "label": "lookup"
+                                    },
+                                    {
+                                        "value": "full",
+                                        "label": "full"
+                                    },
+                                    {
+                                        "value": "admin",
+                                        "label": "admin"
                                     }
-                                ],
-                                "auth_code_endpoint": "/neWeb2/OAuth.aspx",
-                                "access_token_endpoint": "/v1/OAuth",
-                                "oauth_timeout": 60,
-                                "oauth_state_enabled": false
+                                ]
                             }
+                        },
+                        {
+                            "type": "text",
+                            "label": "Repository ID",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Repository ID seems incorrect",
+                                    "pattern": "^[\\w\\-\\_]+$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of Repository ID should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "field": "repository_id",
+                            "help": "Repository ID for which data needs to be collected.",
+                            "required": true
                         }
                     ],
                     "title": "Accounts"
@@ -230,26 +267,6 @@
                                     "errorMsg": "Length of index name should be between 1 and 80."
                                 }
                             ]
-                        },
-                        {
-                            "type": "text",
-                            "label": "Repository ID",
-                            "validators": [
-                                {
-                                    "type": "regex",
-                                    "errorMsg": "Repository ID seems incorrect",
-                                    "pattern": "^[\\w\\-\\_]+$"
-                                },
-                                {
-                                    "type": "string",
-                                    "errorMsg": "Length of Repository ID should be between 1 and 100",
-                                    "minLength": 1,
-                                    "maxLength": 100
-                                }
-                            ],
-                            "field": "repository_id",
-                            "help": "Repository ID for which data needs to be collected.",
-                            "required": true
                         }
                     ],
                     "title": "Repository User Logs"
@@ -323,26 +340,6 @@
                                     "errorMsg": "Length of index name should be between 1 and 80."
                                 }
                             ]
-                        },
-                        {
-                            "type": "text",
-                            "label": "Repository ID",
-                            "validators": [
-                                {
-                                    "type": "regex",
-                                    "errorMsg": "Repository ID seems incorrect",
-                                    "pattern": "^[\\w\\-\\_]+$"
-                                },
-                                {
-                                    "type": "string",
-                                    "errorMsg": "Length of Repository ID should be between 1 and 100",
-                                    "minLength": 1,
-                                    "maxLength": 100
-                                }
-                            ],
-                            "field": "repository_id",
-                            "help": "Repository ID for which data needs to be collected.",
-                            "required": true
                         }
                     ],
                     "title": "Repository Administrator Logs"
@@ -379,10 +376,6 @@
                         "field": "account"
                     },
                     {
-                        "label": "Repository ID",
-                        "field": "repository_id"
-                    },
-                    {
                         "label": "Status",
                         "field": "disabled"
                     }
@@ -411,10 +404,6 @@
                     {
                         "label": "Account",
                         "field": "account"
-                    },
-                    {
-                        "label": "Repository ID",
-                        "field": "repository_id"
                     },
                     {
                         "label": "Status",
