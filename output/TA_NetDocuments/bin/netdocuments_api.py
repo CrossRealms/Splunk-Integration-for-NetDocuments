@@ -147,9 +147,11 @@ class NetDocuments:
                    'Authorization': 'Bearer ' + self.get_access_token()}
         full_url = f'{self.base_url.rstrip("/")}/{url.lstrip("/")}'
 
+        self.logger.info("Full URL of HTTP request = {}".format(full_url))
+
         try:
             self.logger.debug("Request for URL={}".format(full_url))
-            response = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings)
+            response = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings, timeout=280)
             status_code = response.status_code
 
             self.logger.debug("API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code, response.text))
