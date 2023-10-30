@@ -56,17 +56,21 @@ def get_account_details(session_key: str, logger, account_name: str):
 
 
 def get_log_level(session_key: str):
-    log_level = logging.INFO
     try:
-        # TODO - this does not work as expected.
-        log_level = conf_manager.get_log_level(
-            session_key=session_key,
-            app_name=ADDON_NAME,
-            conf_name=f"{NORMALIZED_ADDON_NAME}_settings",
-        )
+        settings_cfm = conf_manager.ConfManager(
+            session_key,
+            ADDON_NAME,
+            realm=f"__REST_CREDENTIAL__#{ADDON_NAME}#configs/conf-{NORMALIZED_ADDON_NAME}_settings")
+
+        logging_details = settings_cfm.get_conf(
+            f"{NORMALIZED_ADDON_NAME}_settings").get("logging")
+
+        log_level = logging_details.get('loglevel') if (
+            logging_details.get('loglevel')) else 'INFO'
+
+        return log_level
     except:
-        pass
-    return log_level
+        return logging.INFO
 
 
 
@@ -78,8 +82,8 @@ class AddonInput:
         self.event_writer = event_writer
 
         log_level = get_log_level(self.session_key)
-        log_level = logging.DEBUG   # TODO - something to be removed
         self.logger = logger_manager.setup_logging(normalized_input_name, log_level)
+        self.logger.info(f"Logger initiated. Logging level = {log_level}")
 
         try:
             self.logger.info(f'Modular input "{normalized_input_name}" started.')
