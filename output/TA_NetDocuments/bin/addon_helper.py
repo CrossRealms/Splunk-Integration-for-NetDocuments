@@ -84,7 +84,7 @@ class AddonInput:
         try:
             self.logger.info(f'Modular input "{normalized_input_name}" started.')
 
-            self.logger.info(f"input_name={input_name}, input_item={input_item}")
+            self.logger.debug(f"input_name={input_name}, input_item={input_item}")
 
             account_name = input_item.get('account')
             account_details = get_account_details(session_key, self.logger, account_name)
@@ -92,12 +92,12 @@ class AddonInput:
 
             input_checkpointer = AddonInputCheckpointer(session_key, self.logger, normalized_input_name)
             last_checkpoint = input_checkpointer.get()
-            self.logger.info(f"input={normalized_input_name} -> checkpoint={last_checkpoint}")
+            self.logger.info(f"input={normalized_input_name} -> last_checkpoint={last_checkpoint}")
 
             self.logger.debug("before self.collect()")
             updated_checkpoint = self.collect(account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
             self.logger.debug("after self.collect()")
-            self.logger.info(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
+            self.logger.debug(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
             if updated_checkpoint:
                 input_checkpointer.update(updated_checkpoint)
 

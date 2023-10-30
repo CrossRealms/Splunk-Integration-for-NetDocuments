@@ -48,7 +48,7 @@ class NetDocuments:
             access_token = response_data.get("access_token")
             token_type = response_data.get("token_type")
 
-            self.logger.debug(f"Token Type: {token_type}")
+            self.logger.debug(f"Access Token Received. Token Type: {token_type}")
             self.access_token = access_token
             return access_token
         else:
@@ -115,11 +115,11 @@ class NetDocuments:
         full_url = f'{self.base_url.rstrip("/")}/{url.lstrip("/")}'
 
         try:
-            self.logger.debug("Request for URL={}".format(full_url))
+            self.logger.info("Request for URL={}".format(full_url))
             response = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings)
             status_code = response.status_code
 
-            self.logger.debug("API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code, response.text))
+            self.logger.info("API Call Response to URL={}: status_code:{}".format(full_url, status_code))
 
             if response.ok:
                 return response
@@ -133,7 +133,7 @@ class NetDocuments:
                     response2 = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings)
                     status_code2 = response2.status_code
 
-                    self.logger.debug("After refreshing the access token, API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code2, response2.text))
+                    self.logger.debug("After refreshing the access token, API Call Response to URL={}: status_code:{}".format(full_url, status_code2))
                     return response2
 
         except Exception as exception:
@@ -150,11 +150,10 @@ class NetDocuments:
         self.logger.info("Full URL of HTTP request = {}".format(full_url))
 
         try:
-            self.logger.debug("Request for URL={}".format(full_url))
             response = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings, timeout=280)
             status_code = response.status_code
 
-            self.logger.debug("API Call Response to URL={}: status_code:{}, response_text:{}".format(full_url, status_code, response.text))
+            self.logger.debug("API Call Response to URL={}: status_code:{}".format(full_url, status_code))
 
             if response.ok:
                 return response
