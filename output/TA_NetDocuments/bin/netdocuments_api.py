@@ -16,8 +16,6 @@ class NetDocuments:
         self.logger.debug("NetDocuments class initialized.")
 
 
-    # TODO - Need to update the access token inside the account.conf file - See lansweeper's update_access_token() function for reference
-
     def get_access_token(self):
         if self.access_token:
             return self.access_token
@@ -34,7 +32,6 @@ class NetDocuments:
         }
 
         headers = {
-            # "Authorization": authorization_header,
             "Content-Type": "application/x-www-form-urlencoded",  # URL-encoded form data
             "Accept": "application/json",
         }
@@ -51,6 +48,7 @@ class NetDocuments:
             self.logger.debug(f"Access Token Received. Token Type: {token_type}")
             self.access_token = access_token
             return access_token
+            # TODO - need to update access_token inside the conf file, see other Add-on for reference
         else:
             self.logger.error(f"Request for getting access token failed with status code {response.status_code}. Response_text={response.text}")
 
@@ -147,13 +145,15 @@ class NetDocuments:
                    'Authorization': 'Bearer ' + self.get_access_token()}
         full_url = f'{self.base_url.rstrip("/")}/{url.lstrip("/")}'
 
-        self.logger.info("Full URL of HTTP request = {}".format(full_url))
+        self.logger.info(f"HTTP request to NetDocuments. URL={full_url}, params={params}")
+        self.logger.debug(f"HTTP request to NetDocuments. data={data}")
 
         try:
             response = requests.request(method, full_url, params=params, json=data, headers=headers, proxies=self.proxy_settings, timeout=280)
             status_code = response.status_code
 
-            self.logger.debug("API Call Response to URL={}: status_code:{}".format(full_url, status_code))
+            self.logger.info("HTTP response from NetDocuments. URL={}: status_code={}".format(full_url, status_code))
+            self.logger.debug("HTTP response from NetDocuments. response_text={}".format(response.text))
 
             if response.ok:
                 return response

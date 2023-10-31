@@ -27,6 +27,7 @@ class RepositoryAdminLog(AddonInput):
             if response.status_code == 200:
                 cleaned_response_text = response.text.lstrip('\ufeff')
                 json_data = json.loads(cleaned_response_text)
+                self.logger.debug("json_data response: {}".format(json_data))
 
                 last_date = json_data[-1]['activity']['date']
 

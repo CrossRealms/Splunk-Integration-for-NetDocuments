@@ -101,7 +101,7 @@ class AddonInput:
             self.logger.debug("before self.collect()")
             updated_checkpoint = self.collect(account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
             self.logger.debug("after self.collect()")
-            self.logger.debug(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
+            self.logger.info(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
             if updated_checkpoint:
                 input_checkpointer.update(updated_checkpoint)
 
