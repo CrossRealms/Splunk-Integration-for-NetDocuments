@@ -19,7 +19,7 @@ class RepositoryAdminLog(AddonInput):
             last_checkpoint = seven_days_ago.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         repository_id = account_details.get('repository_id')
-        response = netdocs_api.make_api_call(f'Repository/{repository_id}/log', params={"start_date": last_checkpoint, "Logtype": "admin", "format": "json"})
+        response = netdocs_api.make_api_call(f'Repository/{repository_id}/log', params={"start": last_checkpoint, "Logtype": "admin", "format": "json"})
 
         self.logger.info("Completed the HTTP request to RepositoryAdminLog.")
 
