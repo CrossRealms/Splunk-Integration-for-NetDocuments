@@ -29,30 +29,31 @@ class RepositoryAdminLog(AddonInput):
                 json_data = json.loads(cleaned_response_text)
                 self.logger.debug("json_data response: {}".format(json_data))
 
+                self.logger.debug(f'Total events fetched from API {len(json_data)}')
+
+                if len(json_data) < 1:
+                    self.logger.info('No new events from API.')
+                    return
+
                 last_date = json_data[-1]['activity']['date']
+                self.logger.debug(f'Last event fetched from API with date="{last_date}"')
 
-                self.logger.info(f'Total events fetched from API {len(json_data)}')
-
-                for i in range(len(json_data)-1, -1, -1):
-                    if json_data[i]['activity']['date'] == last_date:
-                        # pass   # ignoring the last date to avoid duplicate data
-                        self.logger.debug(f"i={i} -> last_date")
-                    else:
-                        self.logger.debug(f"i={i} -> last_date not matching here breaking...")
-                        break
-
-                for j in range(0, i+1):
-                    # self.logger.debug(f"i={i} -> ingesting line -> {json_data[j]}")
+                for e in json_data:
                     self.event_writer.write_event(
                         smi.Event(
-                            data=json.dumps(json_data[j]['activity'], ensure_ascii=False, default=str),
+                            data=json.dumps(e['activity'], ensure_ascii=False, default=str),
                             index=input_item.get("index"),
                             sourcetype=sourcetype,
                         )
                     )
 
-                self.logger.info(f'Ingested {i+1} events for input="{input_name.split("/")[-1]}" in the sourcetype="{sourcetype}"')
-                return "{}Z".format(last_date)
+                self.logger.info(f'Ingested {len(json_data)} events for input="{input_name.split("/")[-1]}" in the sourcetype="{sourcetype}"')
+
+                _last_data_obj = datetime.strptime(last_date, "%Y-%m-%dT%H:%M:%S")
+                _last_data_obj = _last_data_obj + timedelta(seconds=1)
+                next_checkpoint = _last_data_obj.strftime("%Y-%m-%dT%H:%M:%SZ")
+                self.logger.info(f'Next checkpoint start date for input="{input_name.split("/")[-1]}" is next_start_date="{next_checkpoint}"')
+                return next_checkpoint
 
             else:
                 self.logger.error(f"Unable to fetch admin data from repository={repository_id}, status_code={response.status_code}")
