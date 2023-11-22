@@ -29,9 +29,13 @@ class RepositoryAdminLog(AddonInput):
                 json_data = json.loads(cleaned_response_text)
                 self.logger.debug("json_data response: {}".format(json_data))
 
-                last_date = json_data[-1]['activity']['date']
-
                 self.logger.debug(f'Total events fetched from API {len(json_data)}')
+
+                if len(json_data) < 1:
+                    self.logger.info('No new events from API.')
+                    return
+
+                last_date = json_data[-1]['activity']['date']
                 self.logger.debug(f'Last event fetched from API with date="{last_date}"')
 
                 for e in json_data:
