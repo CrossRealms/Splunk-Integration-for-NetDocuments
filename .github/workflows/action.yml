@@ -27,3 +27,5 @@ jobs:
         with:
           app_dir: "TA_NetDocuments"
           is_app_inspect_check: true
+          splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
+          splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
