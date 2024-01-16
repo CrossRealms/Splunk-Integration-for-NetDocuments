@@ -1,0 +1,91 @@
+<form version="1.1" theme="light">
+  <label>User Logs</label>
+  <init>
+    <set token="tkn_doc_id"></set>
+    <set token="tkn_doc_name"></set>
+    <set token="tkn_source"></set>
+    <set token="tkn_matter"></set>
+    <set token="tkn_filter">`netdocs_userlogs_filter`</set>
+  </init>
+  <fieldset submitButton="false">
+    <input type="time" token="timerange" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="tkn_user" searchWhenChanged="true">
+      <label>User</label>
+      <default>*</default>
+      <prefix>"*</prefix>
+      <suffix>*"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="tkn_event_type" searchWhenChanged="true">
+      <label>Event Type</label>
+      <default>*</default>
+      <prefix>"*</prefix>
+      <suffix>*"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="tkn_source" searchWhenChanged="true">
+      <label>Source Name</label>
+      <default></default>
+      <prefix>source.name="*</prefix>
+      <suffix>*"</suffix>
+      <initialValue></initialValue>
+    </input>
+    <input type="text" token="tkn_matter" searchWhenChanged="true">
+      <label>Matter</label>
+      <default></default>
+      <prefix>storageObject.Matter="*</prefix>
+      <suffix>*"</suffix>
+      <initialValue></initialValue>
+    </input>
+    <input type="text" token="tkn_doc_id" searchWhenChanged="true">
+      <label>Doc ID</label>
+      <default></default>
+      <prefix>storageObject.docId="*</prefix>
+      <suffix>*"</suffix>
+      <initialValue></initialValue>
+    </input>
+    <input type="text" token="tkn_doc_name" searchWhenChanged="true">
+      <label>Doc Name</label>
+      <default></default>
+      <prefix>storageObject.name="*</prefix>
+      <suffix>*"</suffix>
+      <initialValue></initialValue>
+    </input>
+    <input type="checkbox" token="tkn_apply_filter" searchWhenChanged="true">
+      <label></label>
+      <choice value="1">Apply Filter Macro</choice>
+      <delimiter> </delimiter>
+      <initialValue>1</initialValue>
+      <change>
+        <condition match="$tkn_apply_filter$==1">
+          <set token="tkn_filter">`netdocs_userlogs_filter`</set>
+        </condition>
+        <condition>
+          <set token="tkn_filter"></set>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>User Logs</title>
+      <table>
+        <search>
+          <query>`netdocs_index` sourcetype="netdocuments:repository:user:logs" $tkn_filter$ name=$tkn_event_type$ user=$tkn_user$ $tkn_source$  $tkn_matter$ $tkn_doc_id$ $tkn_doc_name$ 
+| table _time user event_type source.name desc storageObject.Matter storageObject.docId storageObject.name 
+| rename storageObject.docId as docId storageObject.name as docName storageObject.Matter as matter</query>
+          <earliest>$timerange.earliest$</earliest>
+          <latest>$timerange.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

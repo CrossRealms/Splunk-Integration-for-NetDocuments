@@ -1,0 +1,66 @@
+<form version="1.1" theme="light">
+  <label>Admin Logs</label>
+   <init>
+    <set token="tkn_filter">`netdocs_adminlogs_filter`</set>
+  </init>
+  <fieldset submitButton="false">
+    <input type="time" token="timerange" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="tkn_user" searchWhenChanged="true">
+      <label>User</label>
+      <default>*</default>
+      <prefix>"*</prefix>
+      <suffix>*"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="tkn_event_type" searchWhenChanged="true">
+      <label>Event Type</label>
+      <default>*</default>
+      <prefix>"*</prefix>
+      <suffix>*"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="checkbox" token="tkn_apply_filter" searchWhenChanged="true">
+      <label></label>
+      <choice value="1">Apply Filter Macro</choice>
+      <delimiter> </delimiter>
+      <initialValue>1</initialValue>
+      <change>
+        <condition match="$tkn_apply_filter$==1">
+          <set token="tkn_filter">`netdocs_adminlogs_filter`</set>
+        </condition>
+        <condition>
+          <set token="tkn_filter"></set>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Admin Logs</title>
+      <table>
+        <search>
+          <query>`netdocs_index` sourcetype="netdocuments:repository:admin:logs" $tkn_filter$ event_type=$tkn_event_type$ user=$tkn_user$ 
+| table _time user event_type desc 
+| sort - _time</query>
+          <earliest>$timerange.earliest$</earliest>
+          <latest>$timerange.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>
