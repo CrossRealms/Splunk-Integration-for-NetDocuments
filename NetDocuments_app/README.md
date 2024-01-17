@@ -96,8 +96,6 @@ OPEN SOURCE COMPONENTS AND LICENSES
 CONTRIBUTORS
 ------------
 * Vatsal Jagani
-* Usama Houlila
-* Preston Carter
 * Mahir Chavda
 * Hardik Dholariya
 
