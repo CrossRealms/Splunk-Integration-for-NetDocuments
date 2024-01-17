@@ -49,7 +49,7 @@ DATA COLLECTION & CONFIGURATION
 ### Update Macro Configuration
 
 1. Log in as administrator and select Settings > Advance search > Search Macros. 
-2. Select `NetDocuments App for Splunk (NetDocuments_app)` in the App drop-down. A list of available macros is displayed. 
+2. Select `NetDocuments App for Splunk (NetDocuments_App)` in the App drop-down. A list of available macros is displayed. 
 3. Select and edit the macro and change the definition of macros with new value.
 
 
@@ -66,7 +66,7 @@ UNINSTALL APP
 To uninstall app, user can follow below steps:
 * SSH to the Splunk instance.
 * Go to folder apps($SPLUNK_HOME/etc/apps).
-* Remove the `NetDocuments_app` folder from `apps` directory.
+* Remove the `NetDocuments_App` folder from `apps` directory.
 * Restart Splunk.
 
 
