@@ -1,5 +1,6 @@
-# Splunk-Add-on-for-NetDocuments
-Splunk Add-on for NetDocuments Logs Collection
+# Splunk-Integration-for-NetDocuments
+
+Splunk Add-on and App for NetDocuments Logs
 
 
 ## UCC Document
