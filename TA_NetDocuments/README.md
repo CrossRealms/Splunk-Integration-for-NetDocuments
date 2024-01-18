@@ -1,14 +1,14 @@
 # NetDocuments Add-on for Splunk
 
 ### Download from Splunkbase
-https://splunkbase.splunk.com/app/TODO/
+https://splunkbase.splunk.com/app/7197/
 
 
 OVERVIEW
 --------
 The NetDocuments Add-on for Splunk is a Splunk App that allows users to collect Repository Administrator Logs and Repository User Logs from NetDocuments into Splunk. It consists of python scripts to collect the data alongside configuration pages in UI to configure the data collection.
 
-Use the <a href="https://splunkbase.splunk.com/app/TODO/">NetDocuments App for Splunk</a> to view the data on the dashboards.
+Use the <a href="https://splunkbase.splunk.com/app/7198/">NetDocuments App for Splunk</a> to view the data on the dashboards.
 
 * Author - CrossRealms International Inc.
 * Compatible with:
