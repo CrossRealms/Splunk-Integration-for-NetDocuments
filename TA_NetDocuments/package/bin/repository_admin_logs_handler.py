@@ -1,5 +1,61 @@
 
+import json
+from datetime import datetime, timedelta
 from splunklib import modularinput as smi
+
+from addon_helper import AddonInput
+from netdocuments_api import NetDocuments
+
+
+class RepositoryAdminLog(AddonInput):
+    def collect(self, account_details, last_checkpoint):
+        sourcetype = "netdocuments:repository:admin:logs"
+
+        netdocs_api = NetDocuments(self.logger, account_details)
+
+        if not last_checkpoint:
+            now = datetime.now()
+            seven_days_ago = now - timedelta(days=1)  # update limit
+            last_checkpoint = seven_days_ago.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        repository_id = account_details.get('repository_id')
+        response = netdocs_api.make_api_call(f'Repository/{repository_id}/log', params={"start": last_checkpoint, "Logtype": "admin", "format": "json"})
+
+        self.logger.info("Completed the HTTP request to RepositoryAdminLog.")
+
+        if response:
+            if response.status_code == 200:
+                cleaned_response_text = response.text.lstrip('\ufeff')
+                json_data = json.loads(cleaned_response_text)
+                self.logger.debug("json_data response: {}".format(json_data))
+
+                last_date = json_data[-1]['activity']['date']
+
+                self.logger.info(f'Total events fetched from API {len(json_data)}')
+
+                for i in range(len(json_data)-1, -1, -1):
+                    if json_data[i]['activity']['date'] == last_date:
+                        # pass   # ignoring the last date to avoid duplicate data
+                        self.logger.debug(f"i={i} -> last_date")
+                    else:
+                        self.logger.debug(f"i={i} -> last_date not matching here breaking...")
+                        break
+
+                for j in range(0, i+1):
+                    # self.logger.debug(f"i={i} -> ingesting line -> {json_data[j]}")
+                    self.event_writer.write_event(
+                        smi.Event(
+                            data=json.dumps(json_data[j]['activity'], ensure_ascii=False, default=str),
+                            index=self.input_item.get("index"),
+                            sourcetype=sourcetype,
+                        )
+                    )
+
+                self.logger.info(f'Ingested {i+1} events for input="{self.input_name.split("/")[-1]}" in the sourcetype="{sourcetype}"')
+                return "{}Z".format(last_date)
+
+            else:
+                self.logger.error(f"Unable to fetch admin data from repository={repository_id}, status_code={response.status_code}")
 
 
 def validate_input(input_script: smi.Script, definition: smi.ValidationDefinition):
@@ -7,5 +63,8 @@ def validate_input(input_script: smi.Script, definition: smi.ValidationDefinitio
 
 
 def stream_events(input_script: smi.Script, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
-    return
+    session_key = input_script._input_definition.metadata["session_key"]
+
+    for input_name, input_item in inputs.inputs.items():
+        RepositoryAdminLog(session_key, input_name, input_item, event_writer)
 

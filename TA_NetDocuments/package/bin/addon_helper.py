@@ -75,45 +75,62 @@ def get_log_level(session_key: str):
 
 
 class AddonInput:
+    '''
+    Attributes accessible as class attributes
+        - logger
+        - session_key
+        - event_writer
+        - proxy_settings
+
+    Attributes available as argument to collect() method
+        - account_details
+        - input_name
+        - input_item
+        - last_checkpoint
+    '''
     def __init__(self, session_key, input_name, input_item, event_writer) -> None:
-        normalized_input_name = input_name.split("/")[-1]
+        self.input_name = input_name
+        self.input_item = input_item
+        self.normalized_input_name = input_name.split("/")[-1]
 
         self.session_key = session_key
         self.event_writer = event_writer
 
         log_level = get_log_level(self.session_key)
-        self.logger = logger_manager.setup_logging(normalized_input_name, log_level)
+        self.logger = logger_manager.setup_logging(self.normalized_input_name, log_level)
         self.logger.info(f"Logger initiated. Logging level = {log_level}")
 
         try:
-            self.logger.info(f'Modular input "{normalized_input_name}" started.')
+            self.logger.info(f'Modular input "{self.normalized_input_name}" started.')
 
             self.logger.debug(f"input_name={input_name}, input_item={input_item}")
 
             account_name = input_item.get('account')
             account_details = get_account_details(session_key, self.logger, account_name)
-            # proxy_settings = get_proxy_settings(session_key, logger)
 
-            input_checkpointer = AddonInputCheckpointer(session_key, self.logger, normalized_input_name)
+            # self.proxy_settings = get_proxy_settings(session_key, self.logger)
+            self.proxy_settings = None
+
+            input_checkpointer = AddonInputCheckpointer(session_key, self.logger, self.normalized_input_name)
             last_checkpoint = input_checkpointer.get()
-            self.logger.info(f"input={normalized_input_name} -> last_checkpoint={last_checkpoint}")
+            self.logger.info(f"input={self.normalized_input_name} -> last_checkpoint={last_checkpoint}")
 
             self.logger.debug("before self.collect()")
-            updated_checkpoint = self.collect(account_details, proxy_settings=None, input_name=input_name, input_item=input_item, last_checkpoint=last_checkpoint)
+            updated_checkpoint = self.collect(account_details, last_checkpoint=last_checkpoint)
             self.logger.debug("after self.collect()")
-            self.logger.info(f"input={normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
+            self.logger.info(f"input={self.normalized_input_name} -> updating the checkpoint to {updated_checkpoint}")
             if updated_checkpoint:
                 input_checkpointer.update(updated_checkpoint)
 
-            self.logger.info(f'Modular input "{normalized_input_name}" ended.')
+            self.logger.info(f'Modular input "{self.normalized_input_name}" ended.')
 
         except Exception as e:
             self.logger.error(
-                f'Exception raised while ingesting data for input="{normalized_input_name}" {e}. Traceback: {traceback.format_exc()}'
+                f'Exception raised while ingesting data for input="{self.normalized_input_name}" {e}. Traceback: {traceback.format_exc()}'
             )
 
 
-    def collect(self, account_details, proxy_settings, input_name, input_item, last_checkpoint):
+    def collect(self, account_details, last_checkpoint):
         self.logger.error("This collect() function should not be called.")
         raise Exception("collect method has not been implemented.")
 
