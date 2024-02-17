@@ -3,3 +3,4 @@
 output/**
 old/**
 TA_NetDocuments/output/**
+**/*.pyc
