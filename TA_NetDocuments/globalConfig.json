@@ -12,8 +12,20 @@
                         ],
                         "header": [
                             {
-                                "label": "Name",
-                                "field": "name"
+                                "field": "name",
+                                "label": "Account name"
+                            },
+                            {
+                                "field": "endpoint",
+                                "label": "Endpoint/Region"
+                            },
+                            {
+                                "field": "client_id",
+                                "label": "Client ID"
+                            },
+                            {
+                                "label": "Repository ID",
+                                "field": "repository_id"
                             }
                         ]
                     },
@@ -39,12 +51,106 @@
                             "required": true
                         },
                         {
+                            "type": "singleSelect",
+                            "field": "endpoint",
+                            "label": "Region",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "vault.netvoyage.com",
+                                        "label": "United States"
+                                    },
+                                    {
+                                        "value": "eu.netdocuments.com",
+                                        "label": "United Kingdom"
+                                    },
+                                    {
+                                        "value": "au.netdocuments.com",
+                                        "label": "Australia"
+                                    },
+                                    {
+                                        "value": "de.netdocuments.com",
+                                        "label": "Germany"
+                                    },
+                                    {
+                                        "value": "can.netdocuments.com",
+                                        "label": "Canada"
+                                    }
+                                ],
+                                "display": true
+                            },
+                            "required": true
+                        },
+                        {
                             "type": "text",
-                            "label": "API key",
-                            "field": "api_key",
-                            "help": "API key",
+                            "label": "Client Id",
+                            "field": "client_id",
                             "required": true,
-                            "encrypted": true
+                            "help": "Enter the NetDocument Client Id for this account."
+                        },
+                        {
+                            "type": "text",
+                            "label": "Client Secret",
+                            "field": "client_secret",
+                            "encrypted": true,
+                            "required": true,
+                            "help": "Enter the NetDocuments Client Secret key for this account."
+                        },
+                        {
+                            "type": "multipleSelect",
+                            "field": "scope",
+                            "label": "Scope",
+                            "required": true,
+                            "options": {
+                                "delimiter": " ",
+                                "items": [
+                                    {
+                                        "value": "read",
+                                        "label": "read"
+                                    },
+                                    {
+                                        "value": "edit",
+                                        "label": "edit"
+                                    },
+                                    {
+                                        "value": "organize",
+                                        "label": "organize"
+                                    },
+                                    {
+                                        "value": "lookup",
+                                        "label": "lookup"
+                                    },
+                                    {
+                                        "value": "full",
+                                        "label": "full"
+                                    },
+                                    {
+                                        "value": "admin",
+                                        "label": "admin"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "label": "Repository ID",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Repository ID seems incorrect",
+                                    "pattern": "^[\\w\\-\\_]+$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of Repository ID should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "field": "repository_id",
+                            "help": "Repository ID for which data needs to be collected.",
+                            "required": true
                         }
                     ],
                     "title": "Accounts"
@@ -94,6 +200,8 @@
             "services": [
                 {
                     "name": "repository_user_logs",
+                    "restHandlerModule": "addon_helper",
+                    "restHandlerClass": "InputHelperRestHandler",
                     "entity": [
                         {
                             "type": "text",
@@ -139,9 +247,102 @@
                             "help": "Account to use for this input.",
                             "field": "account",
                             "required": true
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "createSearchChoice": true,
+                                "denyList": "^_.*$"
+                            },
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Length of index name should be between 1 and 80."
+                                }
+                            ]
                         }
                     ],
-                    "title": "repository_user_logs"
+                    "title": "Repository User Logs"
+                },
+                {
+                    "name": "repository_admin_logs",
+                    "restHandlerModule": "addon_helper",
+                    "restHandlerClass": "InputHelperRestHandler",
+                    "entity": [
+                        {
+                            "type": "text",
+                            "label": "Name",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Input Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of input name should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "field": "name",
+                            "help": "A unique name for the data input.",
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Interval",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Interval must be an integer.",
+                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$"
+                                }
+                            ],
+                            "defaultValue": "300",
+                            "field": "interval",
+                            "help": "Time interval of the data input, in seconds.",
+                            "required": true
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Account to use",
+                            "options": {
+                                "referenceName": "account"
+                            },
+                            "help": "Account to use for this input.",
+                            "field": "account",
+                            "required": true
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "createSearchChoice": true,
+                                "denyList": "^_.*$"
+                            },
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Length of index name should be between 1 and 80."
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Repository Administrator Logs"
                 }
             ],
             "title": "Inputs",
@@ -159,12 +360,20 @@
                         "field": "name"
                     },
                     {
+                        "label": "Input Type",
+                        "field": "serviceTitle"
+                    },
+                    {
                         "label": "Interval",
                         "field": "interval"
                     },
                     {
                         "label": "Index",
                         "field": "index"
+                    },
+                    {
+                        "label": "Account",
+                        "field": "account"
                     },
                     {
                         "label": "Status",
@@ -177,12 +386,24 @@
                         "field": "name"
                     },
                     {
+                        "label": "Input Type ID",
+                        "field": "serviceName"
+                    },
+                    {
+                        "label": "Input Type Title",
+                        "field": "serviceTitle"
+                    },
+                    {
                         "label": "Interval",
                         "field": "interval"
                     },
                     {
                         "label": "Index",
                         "field": "index"
+                    },
+                    {
+                        "label": "Account",
+                        "field": "account"
                     },
                     {
                         "label": "Status",
@@ -212,7 +433,7 @@
     "meta": {
         "name": "TA_NetDocuments",
         "restRoot": "TA_NetDocuments",
-        "version": "0.0.1",
+        "version": "1.0.0",
         "displayName": "NetDocuments Add-on for Splunk",
         "schemaVersion": "0.0.3"
     }
