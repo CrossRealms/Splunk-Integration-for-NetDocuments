@@ -116,3 +116,10 @@ SUPPORT
   * US: +1-312-2784445
 * License Agreement - https://cdn.splunkbase.splunk.com/static/misc/eula.html
 * Copyright - Copyright CrossRealms Internationals, 2024
+# What's inside the App
+
+* No of XML Dashboards: **3**
+* Approx Total Viz(Charts/Tables/Map) in XML dashboards: **3**
+* No of Custom Inputs: **2**
+
+
