@@ -17,6 +17,14 @@ Use the <a href="https://splunkbase.splunk.com/app/7198/">NetDocuments App for S
    * Browser: Google Chrome, Mozilla Firefox, Safari
 
 
+## What's inside the App
+
+* No of XML Dashboards: **3**
+* Approx Total Viz(Charts/Tables/Map) in XML dashboards: **3**
+* No of Custom Inputs: **2**
+
+
+
 TOPOLOGY AND SETTING UP SPLUNK ENVIRONMENT
 ------------------------------------------
 This app can be set up in two ways: 
@@ -116,3 +124,4 @@ SUPPORT
   * US: +1-312-2784445
 * License Agreement - https://cdn.splunkbase.splunk.com/static/misc/eula.html
 * Copyright - Copyright CrossRealms Internationals, 2024
+
