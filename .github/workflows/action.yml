@@ -23,14 +23,17 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: VatsalJagani/splunk-app-action@v4
+      - uses: VatsalJagani/splunk-app-action@v4.1
         with:
           app_dir: "TA_NetDocuments"
           to_make_permission_changes: true
           splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
           splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
+          app_utilities: "whats_in_the_app, splunk_python_sdk"
+          my_github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          splunk_python_sdk_install_path: "lib"
 
-      - uses: VatsalJagani/splunk-app-action@v4
+      - uses: VatsalJagani/splunk-app-action@v4.1
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true
