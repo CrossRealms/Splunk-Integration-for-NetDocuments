@@ -23,14 +23,14 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: VatsalJagani/splunk-app-action@v4
+      - uses: VatsalJagani/splunk-app-action@v4.1
         with:
           app_dir: "TA_NetDocuments"
           to_make_permission_changes: true
           splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
           splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
 
-      - uses: VatsalJagani/splunk-app-action@v4
+      - uses: VatsalJagani/splunk-app-action@v4.1
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true

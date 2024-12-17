@@ -10,5 +10,6 @@ Splunk Add-on and App for NetDocuments Logs
 ```
 ucc-gen build --source TA_NetDocuments --ta-version 1.0.0
 cp -r output/TA_NetDocuments/* TA_NetDocuments/
-rm -rf TA_NetDocuments/static/openapi.json # To fix App Inspect failure
+rm -rf TA_NetDocuments/appserver/static/openapi.json # To fix App Inspect failure
+rm -rf TA_NetDocuments/appserver/static/js/build/custom # Remove this folder if app don't have any customization
 ```

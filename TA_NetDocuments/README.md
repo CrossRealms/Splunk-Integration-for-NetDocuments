@@ -91,6 +91,8 @@ To uninstall app, user can follow below steps:
 
 RELEASE NOTES
 -------------
+Version 1.0.1 (Dec 2024)
+* Rebuild the TA with UCC to upgrade the python libraries.
 
 Version 1.0.0 (Jan 2024)
 * Created Add-on by UCC Splunk-Python library.
