@@ -1,5 +1,5 @@
 #
-# Copyright 2023 Splunk Inc.
+# Copyright 2024 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ def get_base_app_name():
     absolute_path = os.path.normpath(main_name)
     parts = absolute_path.split(os.path.sep)
     parts.reverse()
-    for key in ("apps", "slave-apps", "master-apps"):
+    for key in ("apps", "peer-apps", "manager-apps"):
         try:
             idx = parts.index(key)
             if parts[idx + 1] == "etc":
