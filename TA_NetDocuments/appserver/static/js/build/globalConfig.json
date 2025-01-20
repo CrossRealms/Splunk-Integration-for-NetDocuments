@@ -433,7 +433,7 @@
     "meta": {
         "name": "TA_NetDocuments",
         "restRoot": "TA_NetDocuments",
-        "version": "1.0.2",
+        "version": "1.1.0",
         "displayName": "NetDocuments Add-on for Splunk",
         "schemaVersion": "0.0.9"
     }
