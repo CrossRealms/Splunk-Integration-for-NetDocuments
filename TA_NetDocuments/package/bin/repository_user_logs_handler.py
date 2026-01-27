@@ -1,4 +1,3 @@
-
 import json
 from datetime import datetime, timedelta
 from splunklib import modularinput as smi
@@ -57,3 +56,15 @@ class RepositoryUserLog(AddonInput):
 
             else:
                 self.logger.error(f"Unable to fetch user data from repository={repository_id}, status_code={response.status_code}")
+
+
+
+def validate_input(input_script: smi.Script, definition: smi.ValidationDefinition):
+    return
+
+
+def stream_events(input_script: smi.Script, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
+    session_key = input_script.metadata["session_key"]
+
+    for input_name, input_item in inputs.inputs.items():
+        RepositoryUserLog(session_key, input_name, input_item, event_writer)
