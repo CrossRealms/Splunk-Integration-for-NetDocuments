@@ -29,6 +29,8 @@ jobs:
           app_dir: "TA_NetDocuments"
           use_ucc_gen: true
           app_utilities: "ucc_additional_packaging, logger"
+          logger_sourcetype: "ta_netdocuments:logs"
+          logger_log_files_prefix: "ta_netdocuments"
           to_make_permission_changes: true
           is_app_inspect_check: false
           splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
