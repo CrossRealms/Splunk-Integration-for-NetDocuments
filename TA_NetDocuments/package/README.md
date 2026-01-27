@@ -91,6 +91,10 @@ To uninstall app, user can follow below steps:
 
 RELEASE NOTES
 -------------
+Version 1.2.0 (Feb 2026)
+* All dependency update. Rebuild App with UCC.
+* UCC additional_packaging.py added for better python code structure and improved packaging.
+
 Version 1.1.0 (Jan 2025)
 * Rebuild the TA with UCC to upgrade the python libraries.
 
