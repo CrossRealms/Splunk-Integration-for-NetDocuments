@@ -1,20 +1,11 @@
-# This is a basic workflow to generate build
 name: "Build and App-Inspect"
 
-# Controls when the action will run. Triggers the workflow on push or pull request
 on:
   push:
     branches:
       - 'master'
       - 'main'
       - 'develop'
-      - 'new-ucc-add-on-build'
-
-  pull_request:
-    branches:
-      - '*'
-      - '*/*'
-      - '**'
 
   workflow_dispatch:
 
@@ -32,7 +23,7 @@ jobs:
           logger_sourcetype: "ta_netdocuments:logs"
           logger_log_files_prefix: "ta_netdocuments"
           to_make_permission_changes: true
-          is_app_inspect_check: false
+          is_app_inspect_check: true
           splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
           splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
 
@@ -40,6 +31,6 @@ jobs:
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true
-          is_app_inspect_check: false
+          is_app_inspect_check: true
           splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
           splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
