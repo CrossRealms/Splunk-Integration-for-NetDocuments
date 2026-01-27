@@ -8,6 +8,7 @@ on:
       - 'master'
       - 'main'
       - 'develop'
+      - 'new-ucc-add-on-build'
 
   pull_request:
     branches:
