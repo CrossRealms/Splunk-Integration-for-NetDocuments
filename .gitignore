@@ -1,3 +1,6 @@
 .DS_Store
 **/*/.DS_Store
 output/**
+TA_NetDocuments/output/**
+old/**
+old_2/**
