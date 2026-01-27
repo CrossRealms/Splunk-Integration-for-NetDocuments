@@ -9,9 +9,9 @@
         },
         "author": [
             {
-                "name": "",
-                "email": null,
-                "company": null
+                "name": "CrossRealms International",
+                "email": "splunkteam@crossrealms.com",
+                "company": "CrossRealms International"
             }
         ],
         "releaseDate": null,
