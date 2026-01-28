@@ -59,7 +59,7 @@ class RepositoryAdminLog(AddonInput):
 
 
 
-def validate_input(input_script: smi.Script, definition: smi.ValidationDefinition):
+def validate_input(session_key: str, input_script: smi.Script, definition: smi.ValidationDefinition):
     return
 
 

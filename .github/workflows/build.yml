@@ -19,7 +19,7 @@ jobs:
         with:
           app_dir: "TA_NetDocuments"
           use_ucc_gen: true
-          app_utilities: "ucc_additional_packaging, logger"
+          app_utilities: "ucc_additional_packaging"
           to_make_permission_changes: true
           local_app_inspect: true
 
