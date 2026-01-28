@@ -63,8 +63,6 @@ def validate_input(input_script: smi.Script, definition: smi.ValidationDefinitio
     return
 
 
-def stream_events(input_script: smi.Script, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
-    session_key = input_script._input_definition.metadata["session_key"]
-
+def stream_events(session_key: str, input_script: smi.Script, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
     for input_name, input_item in inputs.inputs.items():
         RepositoryUserLog(session_key, input_name, input_item, event_writer)
