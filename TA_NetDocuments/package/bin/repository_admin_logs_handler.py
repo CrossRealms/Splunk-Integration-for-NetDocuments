@@ -64,7 +64,7 @@ def validate_input(input_script: smi.Script, definition: smi.ValidationDefinitio
 
 
 def stream_events(input_script: smi.Script, inputs: smi.InputDefinition, event_writer: smi.EventWriter):
-    session_key = input_script.metadata["session_key"]
+    session_key = input_script._input_definition.metadata["session_key"]
 
     for input_name, input_item in inputs.inputs.items():
         RepositoryAdminLog(session_key, input_name, input_item, event_writer)
