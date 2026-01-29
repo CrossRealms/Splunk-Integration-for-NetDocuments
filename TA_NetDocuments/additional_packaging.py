@@ -1,6 +1,6 @@
 # This file is generated and maintained by splunk-app-action (https://github.com/VatsalJagani/splunk-app-action)
 # To modify anything create Pull Request on the splunk-app-action GitHub repository.
-# Version - 2026-01-28 - abc
+# Version - 2026-01-28
 
 import configparser
 import os
