@@ -21,14 +21,10 @@ jobs:
           use_ucc_gen: true
           app_utilities: "ucc_additional_packaging"
           to_make_permission_changes: true
-          local_app_inspect: false
-          splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
-          splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
+          local_app_inspect: true
 
       - uses: VatsalJagani/splunk-app-action@test
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true
-          local_app_inspect: false
-          splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
-          splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
+          local_app_inspect: true
