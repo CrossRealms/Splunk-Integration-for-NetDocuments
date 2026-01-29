@@ -15,7 +15,7 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: VatsalJagani/splunk-app-action@v5.2.0
+      - uses: VatsalJagani/splunk-app-action@vtest
         with:
           app_dir: "TA_NetDocuments"
           use_ucc_gen: true
@@ -23,7 +23,7 @@ jobs:
           to_make_permission_changes: true
           local_app_inspect: false
 
-      - uses: VatsalJagani/splunk-app-action@v5.2.0
+      - uses: VatsalJagani/splunk-app-action@vtest
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true
