@@ -21,10 +21,10 @@ jobs:
           use_ucc_gen: true
           app_utilities: "ucc_additional_packaging"
           to_make_permission_changes: true
-          local_app_inspect: true
+          local_app_inspect: false
 
       - uses: VatsalJagani/splunk-app-action@v5.2.0
         with:
           app_dir: "NetDocuments_App"
           to_make_permission_changes: true
-          local_app_inspect: true
+          local_app_inspect: false
