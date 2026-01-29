@@ -12,7 +12,7 @@ Use the <a href="https://splunkbase.splunk.com/app/7198/">NetDocuments App for S
 
 * Author - CrossRealms International Inc.
 * Compatible with:
-   * Splunk Enterprise version: 9.4, 9.3, 9.2, 9.1, 9.0, 8.2
+   * Splunk Enterprise version: 10.0, 9.x
    * OS: Platform Independent
    * Browser: Google Chrome, Mozilla Firefox, Safari
 
@@ -91,7 +91,7 @@ To uninstall app, user can follow below steps:
 
 RELEASE NOTES
 -------------
-Version 1.2.0 (Feb 2026)
+Version 1.2.0 (Jan 2026)
 * All dependency update. Rebuild App with UCC.
 * UCC additional_packaging.py added for better python code structure and improved packaging.
 
@@ -124,4 +124,4 @@ SUPPORT
 * Contact - CrossRealms International Inc.
   * US: +1-312-2784445
 * License Agreement - https://cdn.splunkbase.splunk.com/static/misc/eula.html
-* Copyright - Copyright CrossRealms Internationals, 2025
+* Copyright - Copyright CrossRealms Internationals, 2026
