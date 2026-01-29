@@ -13,7 +13,7 @@ The App is using data collected by the <a href="https://splunkbase.splunk.com/ap
 
 * Author - CrossRealms International Inc.
 * Compatible with:
-   * Splunk Enterprise version: 9.1, 9.0, 8.2
+   * Splunk Enterprise version: 10.0, 9.x
    * OS: Platform Independent
    * Browser: Google Chrome, Mozilla Firefox, Safari
 
@@ -73,6 +73,9 @@ To uninstall app, user can follow below steps:
 RELEASE NOTES
 -------------
 
+Version 1.0.1 (Jan 2026)
+* Copyright year changed.
+
 Version 1.0.0 (Jan 2024)
 * Created Admin Logs and User Logs dashboard.
 
@@ -105,4 +108,4 @@ SUPPORT
 * Contact - CrossRealms International Inc.
   * US: +1-312-2784445
 * License Agreement - https://cdn.splunkbase.splunk.com/static/misc/eula.html
-* Copyright - Copyright CrossRealms Internationals, 2024
+* Copyright - Copyright CrossRealms Internationals, 2026

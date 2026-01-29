@@ -1,0 +1,36 @@
+name: "Build and App-Inspect"
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'main'
+      - 'develop'
+
+  workflow_dispatch:
+
+jobs:
+  pre-release:
+    name: "Build and App-Inspect"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: VatsalJagani/splunk-app-action@v5.3.0
+        with:
+          app_dir: "TA_NetDocuments"
+          use_ucc_gen: true
+          app_utilities: "ucc_additional_packaging, logger"
+          logger_sourcetype: "ta_netdocuments:logs"
+          logger_log_files_prefix: "ta_netdocuments"
+          to_make_permission_changes: true
+          is_app_inspect_check: true
+          splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
+          splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
+
+      - uses: VatsalJagani/splunk-app-action@v5.3.0
+        with:
+          app_dir: "NetDocuments_App"
+          to_make_permission_changes: true
+          is_app_inspect_check: true
+          splunkbase_username: ${{ secrets.SPLUNKBASE_USERNAME }}
+          splunkbase_password: ${{ secrets.SPLUNKBASE_PASSWORD }}
